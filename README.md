@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Laptop.webp" alt="Laptop" width="35" /> &nbsp; _Shadowss_ &nbsp; <img src="https://skillicons.dev/icons?i=threejs" height="35" alt="threejs logo"  />  <img src="https://skillicons.dev/icons?i=js" height="35" alt="javascript logo"  />
+![image](https://github.com/ShahramShakiba/Threejs-Journey-Part04/assets/110089830/f29750a6-b043-4a95-8c63-9a6323f6671f)# <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Laptop.webp" alt="Laptop" width="35" /> &nbsp; _Shadowss_ &nbsp; <img src="https://skillicons.dev/icons?i=threejs" height="35" alt="threejs logo"  />  <img src="https://skillicons.dev/icons?i=js" height="35" alt="javascript logo"  />
 
 <!----------------------------------------- Description ---------------------------------------->
 ### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Bubbles.png" alt="Bubbles" width="40" height="40" />&nbsp; _Description_
@@ -23,13 +23,13 @@
 
 > _Which Concepts Have I Covered_: <br/>
 
-01. _<h4>...</h4>_
-02. _<h4></h4>_
-03. _<h4></h4>_
-04. _<h4></h4>_
-05. _<h4></h4>_
-06. _<h4></h4>_
-07. _<h4></h4>_
+01. _<h4>Activate Shadows on the Renderer, Objects, and DirectionalLight.</h4>_
+02. _<h4>Optimize Shadow with near, far, top, bottom, right, left and blur properties of the Shadow-Camera</h4>_
+03. _<h4>Change Shadow Map algorithm to get a smoother shadow - PCFSoftShadowMap </h4>_
+04. _<h4>Add SpotLight and Optimize SpotLight-Shadow</h4>_
+05. _<h4>Add PointLight and Optimize PointLight Shadow</h4>_
+06. _<h4>Baking shadows: Shadows are integrated into textures that we apply on materials.</h4>_
+07. _<h4>Baking Shadow Dynamically with an alpha-texture which white part will be visible and the black part will be invisible Then, we move that shadow with the sphere</h4>_
 
  
 <br/><br/>
