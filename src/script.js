@@ -7,12 +7,12 @@ const scene = new THREE.Scene(); // Scene
 const gui = new GUI(); // Debug
 
 //======================= Lights ========================
-// Ambient light
-const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+//======= Ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
 
-// Directional light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+//======= Directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
 directionalLight.position.set(2, 2, -1);
 scene.add(directionalLight);
 
@@ -25,12 +25,28 @@ directionalLight.shadow.camera.right = 2;
 directionalLight.shadow.camera.left = -2;
 directionalLight.shadow.camera.near = 1; // to avoid glitching and bugs
 directionalLight.shadow.camera.far = 6; // to avoid glitching and bugs
-directionalLight.shadow.radius = 10;
+// directionalLight.shadow.radius = 10;
 
 const directionalLightCameraHelper = new THREE.CameraHelper(
   directionalLight.shadow.camera
 );
 // scene.add(directionalLightCameraHelper);
+
+//======= Spot Light
+const spotLight = new THREE.SpotLight(0xffffff, 3.6, 10, Math.PI * 0.3);
+spotLight.castShadow = true;
+spotLight.position.set(0, 2, 2);
+scene.add(spotLight);
+scene.add(spotLight.target);
+
+spotLight.shadow.mapSize.width = 1024;
+spotLight.shadow.mapSize.height = 1024;
+
+spotLight.shadow.camera.near = 1;
+spotLight.shadow.camera.far = 5;
+
+const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+// scene.add(spotLightCameraHelper);
 
 gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
 gui.add(directionalLight, 'intensity').min(0).max(3).step(0.001);
@@ -79,6 +95,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(width, height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 //==================== Resize Listener ===================
 window.addEventListener('resize', () => {
@@ -110,5 +127,4 @@ const tick = () => {
   window.requestAnimationFrame(tick);
 };
 
-console.timeEnd(sphere);
 tick();
