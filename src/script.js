@@ -16,6 +16,8 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
 directionalLight.position.set(2, 2, -1);
 scene.add(directionalLight);
 
+directionalLight.castShadow = true;
+
 gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
 gui.add(directionalLight, 'intensity').min(0).max(3).step(0.001);
 gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
@@ -31,10 +33,12 @@ gui.add(material, 'roughness').min(0).max(1).step(0.001);
 
 //======================= Objects ========================
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
+sphere.castShadow = true;
 
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
-plane.rotation.x = -Math.PI * 0.5;
+plane.rotation.x = Math.PI * -0.5;
 plane.position.y = -0.5;
+plane.receiveShadow = true;
 
 scene.add(sphere, plane);
 
@@ -45,7 +49,7 @@ let height = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
 camera.position.x = 1;
 camera.position.y = 1;
-camera.position.z = 2;
+camera.position.z = 3;
 scene.add(camera);
 
 //=================== Orbit Controls =====================
@@ -60,6 +64,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(width, height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
 
 //==================== Resize Listener ===================
 window.addEventListener('resize', () => {
