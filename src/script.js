@@ -25,6 +25,7 @@ directionalLight.shadow.camera.right = 2;
 directionalLight.shadow.camera.left = -2;
 directionalLight.shadow.camera.near = 1; // to avoid glitching and bugs
 directionalLight.shadow.camera.far = 6; // to avoid glitching and bugs
+directionalLight.shadow.radius = 10;
 
 const directionalLightCameraHelper = new THREE.CameraHelper(
   directionalLight.shadow.camera
