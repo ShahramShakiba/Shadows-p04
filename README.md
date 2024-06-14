@@ -16,7 +16,7 @@
 <br/> <br/> 
 
 > [!IMPORTANT]
->> - It is crucial to grasp that the project incorporates _"Three.js"_ to build a 3D environment for observing Shadows effects.
+>> - It is crucial to grasp that the project incorporates _"Three.js"_ to build a 3D environment for observing "Shadows" effects.
 
 
 <br/><br/>
