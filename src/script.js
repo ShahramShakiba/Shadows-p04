@@ -4,13 +4,16 @@ import * as THREE from 'three';
 
 const canvas = document.querySelector('canvas.webgl'); // Canvas
 const scene = new THREE.Scene(); // Scene
-const gui = new GUI(); // Debug  
+const gui = new GUI(); // Debug
 
 //======================= Textures ======================
 const textureLoader = new THREE.TextureLoader();
+
+// We can use this for static purposes - bake shadow on the surface, etc...
 const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg');
 bakedShadow.colorSpace = THREE.SRGBColorSpace;
 
+// to create a dynamic shadow using "alphaMap"  ✔️✔️✔️
 const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg');
 simpleShadow.colorSpace = THREE.SRGBColorSpace;
 
@@ -24,7 +27,7 @@ const directionalLight = new THREE.DirectionalLight(0xff9000, 0.5);
 directionalLight.position.set(2, 2, -1);
 scene.add(directionalLight);
 
-directionalLight.castShadow = true;
+directionalLight.castShadow = true; // ✔️✔️✔️
 directionalLight.shadow.mapSize.width = 1024;
 directionalLight.shadow.mapSize.height = 1024;
 directionalLight.shadow.camera.top = 2;
@@ -42,7 +45,7 @@ const directionalLightCameraHelper = new THREE.CameraHelper(
 
 //======= SpotLight
 const spotLight = new THREE.SpotLight(0x4e00ff, 3.5, 10, Math.PI * 0.3);
-spotLight.castShadow = true;
+spotLight.castShadow = true; // ✔️✔️✔️
 spotLight.position.set(0, 2, 2);
 scene.add(spotLight);
 scene.add(spotLight.target);
@@ -58,7 +61,7 @@ const spotLightCameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
 
 //======= PointLight
 const pointLight = new THREE.PointLight(0x00fffc, 0.8);
-pointLight.castShadow = true;
+pointLight.castShadow = true; // ✔️✔️✔️
 pointLight.position.set(-1, 1, 0);
 scene.add(pointLight);
 
@@ -70,39 +73,65 @@ pointLight.shadow.camera.far = 5;
 const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera);
 // scene.add(pointLightCameraHelper);
 
-gui.add(ambientLight, 'intensity').min(0).max(3).step(0.001);
-gui.add(directionalLight, 'intensity').min(0).max(3).step(0.001);
-gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001);
+gui
+  .add(ambientLight, 'intensity')
+  .min(0)
+  .max(3)
+  .step(0.001)
+  .name('Ambient Light');
+gui
+  .add(directionalLight, 'intensity')
+  .min(0)
+  .max(3)
+  .step(0.001)
+  .name('Directional Light');
+gui
+  .add(directionalLight.position, 'x')
+  .min(-5)
+  .max(5)
+  .step(0.001)
+  .name('DL - X');
+gui
+  .add(directionalLight.position, 'y')
+  .min(-5)
+  .max(5)
+  .step(0.001)
+  .name('DL - Y');
+gui
+  .add(directionalLight.position, 'z')
+  .min(-5)
+  .max(5)
+  .step(0.001)
+  .name('DL - Z');
 
 //======================= Material ========================
 const material = new THREE.MeshStandardMaterial();
 material.roughness = 0.15;
 material.metalness = 0.13;
 
-gui.add(material, 'metalness').min(0).max(1).step(0.001);
-gui.add(material, 'roughness').min(0).max(1).step(0.001);
+gui.add(material, 'metalness').min(0).max(1).step(0.001).name('Metalness');
+gui.add(material, 'roughness').min(0).max(1).step(0.001).name('Roughness');
 
 //======================= Objects ========================
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material);
-sphere.castShadow = true;
+sphere.castShadow = true; // ✔️✔️✔️
 
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material);
 plane.rotation.x = Math.PI * -0.5;
 plane.position.y = -0.5;
-plane.receiveShadow = true;
+plane.receiveShadow = true; // ✔️✔️✔️
 
 const sphereShadow = new THREE.Mesh(
-  new THREE.PlaneGeometry(1.5, 1.5),
+  new THREE.PlaneGeometry(1.5, 1.5), // create a plane for our shadow
   new THREE.MeshBasicMaterial({
     color: 0x000000,
-    alphaMap: simpleShadow,
+    alphaMap: simpleShadow, // ✔️✔️✔️
     transparent: true,
   })
 );
-sphereShadow.rotation.x = -Math.PI * 0.5;
+sphereShadow.rotation.x = -Math.PI * 0.5; // set the plane horizontally 
 sphereShadow.position.y = plane.position.y + 0.01;
+// set the shadow-plane just above the main-plane
 
 scene.add(sphere, plane, sphereShadow);
 
@@ -128,7 +157,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(width, height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = false;
+renderer.shadowMap.enabled = false; // ✔️✔️✔️
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 //==================== Resize Listener ===================
@@ -151,10 +180,11 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  // Update the Sphere
+  // Update the Sphere -  * 1.5 = to have a bigger circle
   sphere.position.x = Math.cos(elapsedTime) * 1.5;
   sphere.position.z = Math.sin(elapsedTime) * 1.5;
   sphere.position.y = Math.abs(Math.sin(elapsedTime * 3));
+  // forcing the value to be positive so our ball bounce on the surface
 
   // Update the sphereShadow
   sphereShadow.position.x = sphere.position.x;
